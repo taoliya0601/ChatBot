@@ -585,7 +585,7 @@ def web_logs():
             else:
                 tmp += "\n"
             tmp_rep += tmp
-            tmp_rep += f"用户: {log['describe']}"
+            tmp_rep += f"用户: {log['username']}"
             if len(log['password']) > 4:  # 排除null的情况
                 tmp_rep += f" ({log['password'][:2] + '*' * (len(log['password']) - 3) + log['password'][-1]})\n"
             else:
