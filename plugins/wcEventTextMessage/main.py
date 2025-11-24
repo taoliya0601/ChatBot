@@ -73,8 +73,8 @@ class WxChatTextMessageEventPlugin(Plugin):
                         if re.search(regexp, msg):  # 符合regexp响应规则
                             break
                     else:
-                        # ramdom_rate字段随机值0.0-1.0
-                        if random.random() >= response_rules.get("ramdom_rate", 0.0):
+                        # random_rate字段随机值0.0-1.0
+                        if random.random() >= response_rules.get("random_rate", 0.0):
                             logging.debug(f"根据规则忽略 {message.sender}: {msg}")
                             return
 
