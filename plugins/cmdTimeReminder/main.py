@@ -25,7 +25,7 @@ class RunningFlag:
     version="1.0.0",
     author="For_Lin0601",
     priority=204,
-    enabled=False  # TODO 这个文件搜一下TODO, 此文件复用性低, 需注释掉一些才可被复用。故默认关闭
+    # enabled=False  # TODO 这个文件搜一下TODO, 此文件复用性低, 需注释掉一些才可被复用。故默认关闭
 )
 class TimeReminderCommand(Plugin):
 
@@ -548,12 +548,12 @@ class TimeReminderCommand(Plugin):
             # TODO 这一块是寝室电脑连接, 毫无复用性, 可注释掉
             # 其中用到的文件来自ssh远程修改, 故此处必然报错
             try:
-                if (not check_internet_status_perday) and current_time.tm_hour == 6 and current_time.tm_min == 0:
+                if (not check_internet_status_perday) and current_time.tm_hour == 7 and current_time.tm_min == 30:
                     check_internet_status_perday = True
                     cqhttp = self.emit(GetCQHTTP__)
                     my_qq_number = self.emit(GetConfig__).my_qq_number
                     get.check_internet_status(cqhttp, my_qq_number)
-                elif check_internet_status_perday and current_time.tm_hour == 7:
+                elif check_internet_status_perday and current_time.tm_hour == 8:
                     check_internet_status_perday = False
             except Exception as e:
                 cqhttp = self.emit(GetCQHTTP__)
