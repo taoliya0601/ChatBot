@@ -16,6 +16,7 @@ try:
 
     # 和风天气api
     he_feng_weather_key = config.he_feng_weather_key
+    he_feng_weather_host = config.he_feng_weather_host
     # 天聚数行api1
     tian_jv_shu_xing_api1 = config.tian_jv_shu_xing_api1
     # 天聚数行api2
@@ -36,6 +37,7 @@ except:
     )
     # 和风天气api
     he_feng_weather_key = config.he_feng_weather_key
+    he_feng_weather_host = config.he_feng_weather_host
     # 天聚数行api1
     tian_jv_shu_xing_api1 = config.tian_jv_shu_xing_api1
     # 天聚数行api2
@@ -99,7 +101,7 @@ def get_weather(city: str) -> str:
     """获取该城市的天气预报, 若找不到该城市则返回 '-1', 服务器请求错误则返回 '-2'"""
 
     # 查找城市名
-    city_url = f"https://geoapi.qweather.com/v2/city/lookup?location={city}&key={he_feng_weather_key}"
+    city_url = f"https://{he_feng_weather_host}/geo/v2/city/lookup?location={city}&key={he_feng_weather_key}"
     try:
         city_result = requests.get(city_url, timeout=5).json()
     except:
@@ -110,7 +112,7 @@ def get_weather(city: str) -> str:
         return "-1"
 
     # 获取对应天气预报
-    weather_url = f"https://devapi.qweather.com/v7/weather/3d?location={city_data['id']}&key={he_feng_weather_key}"
+    weather_url = f"https://{he_feng_weather_host}/v7/weather/3d?location={city_data['id']}&key={he_feng_weather_key}"
     i = 0
     while i < 3:
         try:

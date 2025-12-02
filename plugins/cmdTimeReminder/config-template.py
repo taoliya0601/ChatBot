@@ -8,6 +8,7 @@
 
 # 和风天气api
 he_feng_weather_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+he_feng_weather_host = "abc.def.qweatherapi.com"
 
 # 天聚数行api1
 tian_jv_shu_xing_api1 = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
