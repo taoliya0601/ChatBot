@@ -171,7 +171,7 @@ from collections import deque
 
 # 全局速率限制器 - 所有请求共享
 _rate_limiter_calls = deque()
-_rate_limiter_max_calls = 3
+_rate_limiter_max_calls = 2
 _rate_limiter_period = 1.0
 
 
