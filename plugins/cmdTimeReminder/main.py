@@ -594,7 +594,7 @@ class TimeReminderCommand(Plugin):
             get_list[1] = "[bot] " + error_message
 
         # 获取每日新闻
-        news_list = ['1.百度热搜', '2.大米api 新闻', '3.天聚数行 新闻']
+        news_list = ['1.天聚数行 AI新闻', '2.天聚数行 百度热搜', '3.天聚数行 每日简报']
         news = get.get_news()
         news_texts = [text for index, text in enumerate(news_list) if news[index] == '-1']
         if news_texts:

@@ -237,7 +237,7 @@ def wrapper_tian_jv_shu_xing(func):
 def get_news() -> list[str]:
     """获取当日新闻摘要, 若报错则返回 '-1'"""
     function_urls = [
-        f"https://api.1314.cool/getbaiduhot/",
+        f"https://apis.tianapi.com/ai/index?key={tian_jv_shu_xing_api3}",
         f"https://apis.tianapi.com/nethot/index?key={tian_jv_shu_xing_api3}",
         # f"https://api.qqsuu.cn/api/dm-weibohot?apiKey=ff4fdf26deff8ee31fd231df243dae47",
         f"https://apis.tianapi.com/bulletin/index?key={tian_jv_shu_xing_api1}",
@@ -245,10 +245,18 @@ def get_news() -> list[str]:
 
     # api失效
     @wrapper_tian_jv_shu_xing
-    def getbaiduhot(result: str) -> str:
+    def ai(result: str) -> str:
         """1.百度热搜 每三分钟实时更新"""
         getbaiduhot_content = "~~~1.今日热点~~~" + "".join(
-            [f'\n{i+1}. {item["word"]}' for i, item in enumerate(result["data"][:15])]
+            [
+                f'\n\n{i+1}. {item["title"]}'
+                + (
+                    f'\n  ->{item["description"].strip()}'
+                    if item["description"] != ""
+                    else ""
+                )
+                for i, item in enumerate(result["result"]["newslist"][:15])
+            ]
         )
         return getbaiduhot_content
 
@@ -267,17 +275,6 @@ def get_news() -> list[str]:
             ]
         )
         return nethot_content
-
-    @wrapper_tian_jv_shu_xing
-    def api(result: str) -> str:
-        """2.大米api - 免费APi"""
-        new2_content = "~~~2.今日热点~~~\n" + "\n".join(
-            [
-                f"{i+1}. {new2_item['hotword']}"
-                for i, new2_item in enumerate(result["data"]["list"][:15])
-            ]
-        )
-        return new2_content
 
     @wrapper_tian_jv_shu_xing
     def bulletin(result: str) -> str:
