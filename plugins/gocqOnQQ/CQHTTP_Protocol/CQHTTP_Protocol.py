@@ -4,6 +4,7 @@ import logging
 import threading
 import time
 import typing as T
+import random
 
 import requests
 
@@ -53,8 +54,10 @@ class CQHTTP_Protocol(Plugin):
                 _message += chain.toString()
             message = _message
         elif isinstance(message, str) and len(message) > 1000:
-            message = self.emit(ForwardMessage__, message=message)
-            return self.sendPersonForwardMessage(user_id, message)
+            msg = self.emit(ForwardMessage__, message=message)
+            res = self.sendPersonForwardMessage(user_id, msg)
+            if res is not False:
+                return res
         logging.info(f"发送消息[person_{user_id}]: {message}")
         payload = {
             "user_id": user_id,
@@ -79,8 +82,10 @@ class CQHTTP_Protocol(Plugin):
                 _message += chain.toString()
             message = _message
         elif isinstance(message, str) and len(message) > 1000:
-            message = self.emit(ForwardMessage__, message=message)
-            return self.sendGroupForwardMessage(group_id, message)
+            msg = self.emit(ForwardMessage__, message=message)
+            res = self.sendGroupForwardMessage(group_id, msg)
+            if res is not False:
+                return res
         logging.info(f"发送消息[group_{group_id}]: {message}")
         result = self._sent_post(f"{self.http_url}/send_group_msg", {
             "group_id": group_id,
@@ -98,14 +103,14 @@ class CQHTTP_Protocol(Plugin):
             if isinstance(messages[i], Node):
                 messages[i] = messages[i].toDict()
         logging.info(f"发送合并消息[person_{user_id}]: {messages}")
-        for _ in range(5):
+        for _ in range(20):
             result = self._sent_post(f"{self.http_url}/send_private_forward_msg", {
                 "user_id": user_id,
                 "messages": messages
             })
             if result["status"] == "ok":
                 return BotMessage.model_validate(result["data"])
-            time.sleep(0.2)
+            time.sleep(random.random() * 0.4 + 0.1)
         return False
 
     def sendGroupForwardMessage(self,
@@ -115,14 +120,14 @@ class CQHTTP_Protocol(Plugin):
             if isinstance(messages[i], Node):
                 messages[i] = messages[i].toDict()
         logging.info(f"发送合并消息[group_{group_id}]: {messages}")
-        for _ in range(5):
+        for _ in range(20):
             result = self._sent_post(f"{self.http_url}/send_group_forward_msg", {
                 "group_id": group_id,
                 "messages": messages
             })
             if result["status"] == "ok":
                 return BotMessage.model_validate(result["data"])
-            time.sleep(0.2)
+            time.sleep(random.random() * 0.4 + 0.1)
         return False
 
     def recall(self, message_id: int) -> bool:
